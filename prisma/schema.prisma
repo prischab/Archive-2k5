@@ -1,0 +1,53 @@
+// Prisma schema — defines your database tables.
+// Using SQLite now (a single file, zero setup). To move to Postgres later,
+// change provider to "postgresql" and set DATABASE_URL to your Neon URL.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  price       Int                       // stored in rupees
+  brand       String?
+  category    String                    // Tops | Bottoms | Dresses
+  size        String?
+  condition   String?
+  wornTimes   String?
+  color       String?
+  waist       String?
+  length      String?
+  chest       String?
+  bust        String?
+  imageUrl    String?
+  status      String   @default("available")  // available | sold
+  createdAt   DateTime @default(now())
+  orders      Order[]
+}
+
+model Order {
+  id             String   @id @default(cuid())
+  product        Product  @relation(fields: [productId], references: [id])
+  productId      String
+  buyerName      String
+  buyerPhone     String
+  buyerEmail     String
+  deliveryMethod String                  // pickup | courier
+  zoneName       String?
+  address        String?
+  shippingFee    Int      @default(0)
+  total          Int
+  razorpayId     String?
+  upiRef         String?                 // optional UPI txn reference buyer enters
+  paymentStatus  String   @default("pending") // pending | paid  (the money question)
+  status         String   @default("pending") // pending | booked | delivered (fulfilment)
+  paymentMode    String   @default("upi_qr")  // upi_qr | razorpay
+  createdAt      DateTime @default(now())
+}
