@@ -1,4 +1,4 @@
-# Archive 2k5 (build2 — UPI QR edition)
+# Archive 2k5 (UPI QR edition)
 
 Full-stack thrift store: Next.js + database + admin dashboard (Clerk login).
 Payments use **your UPI QR with manual confirmation** — zero fees, you stay in
